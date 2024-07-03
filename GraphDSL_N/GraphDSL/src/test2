@@ -1,0 +1,29 @@
+function test1(Graph g, propNode<float> features, propNode<int> labels){
+	int num_epoch=100;
+	int num_layer = 5;
+	container<int> layers;// = {1,2,3,4};
+	layers.pushback(123);
+	layers.pushback(456);	
+	int bajkd = layers.getIdx(0);
+	int x = 1;
+
+			forall (nod in g.nodes()){
+				forall(n in g.neighbors(nod))
+				{
+					if(n.labels == nod.labels){
+				//		messagePass(node, n, features, "sum")
+					}
+				}
+			}
+		
+		
+		while(num_layer--){
+	//		Backward_prop(
+		}
+	
+			
+	}
+
+	
+
+	

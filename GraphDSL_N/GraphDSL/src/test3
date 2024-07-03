@@ -1,0 +1,43 @@
+function Compute_BC (Graph g)
+{
+	propNode <float> BC;
+	g.attachNodeProperty (BC =0);
+    	forall (src in  g.node() ) {
+                     S = empty stack;
+	         propNode <list> p;
+	         propNode <int> sigma;
+	         propNode <int> d;
+                    g.attachNodeProperty(sigma =0, d= -1);
+                    src.sigma = 1
+	         src.d=0;
+   	         Q =  empty queue;
+                    enqueue src → Q;
+  	         while (Q not empty) {
+                	     dequeue v ← Q;
+                     	     push v → S;
+                	     forall (w in g.neighbors( v))  {
+                      	    if (w.dist < 0 )
+			    {
+                                   	 enqueue w → Q;
+                                    	 w.dist = v.dist +1;
+			    }
+                                    if (w.dist = v.dist+1) 
+			   {
+			           w.sigma =  w.sigma +  v.sigma;
+				w. p.append ( v )
+		              }
+	            }
+	}
+	propNode<float> delta;
+	g.attachNodeProperty(delta =0);
+          	while (S not empty)   {
+                	pop w ← S;
+                       for(v in w.p)
+			v.delta = v.delta + (v.sigma / w.sigma) * ( 1 + w.delta);
+                 	if (w != src) 
+			w.BC = w.BC + w.delta;
+		
+    }
+}
+}
+	

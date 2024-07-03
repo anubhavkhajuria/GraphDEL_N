@@ -1,0 +1,7 @@
+function Max_degree(Grapg g){     
+            int max_degree = -1; 
+      int prox = -1;
+       forall(n in g.nodes()){
+               prox = max(g.out_degree,g.in_degree);
+               max_degree = max(max_degree,prox);}
+return max_degree;}
