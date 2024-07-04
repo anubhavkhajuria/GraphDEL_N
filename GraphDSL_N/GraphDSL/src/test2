@@ -1,25 +1,22 @@
-function forward_prop(Graph g, propNode<float> features, propNode<int> labels){
-	int num_epoch=100;
-	int num_layer = 5;
-	container<int> layers;// = {1,2,3,4};
+function forward_prop(Graph g, propNode<float> features, propNode<int> labels, int layer){
+
 	layers.pushback(123);
 	layers.pushback(456);	
 	int bajkd = layers.getIdx(0);
-	int x = 1;
-	while(num_epoch--){
-		num_layer = 5;
-		x = 0;
-		while(x<num_layer){
-		x++;
-			for (nod in g.nodes()){
-				for(n in g.neighbors(nod))
-				{
-					if(n.labels == nod.labels){
-				//		messagePass(node, n, features, "sum")
-					}
+
+	forall (nod in g.nodes()){
+		forall(n in g.neighbors(nod))
+		{
+			if(n.labels == nod.labels){
+			//		messagePass(node, n, features, "sum",layer)
 				}
 			}
+
+		
+		while(num_layer--){
+	//		Backward_prop(
 		}
+	
 			
 	}
 
@@ -27,3 +24,19 @@ function forward_prop(Graph g, propNode<float> features, propNode<int> labels){
 }
 
 function Backward_prop(propNode<int> xyzzz){}
+
+function run(Graph g, propNode<float> features, propNode<int> labels){
+	
+	int num_epoch=100;
+	int num_layer = 5;
+	container<int> layers;// = {1,2,3,4};
+		int x = 1;
+	while(num_epoch--){
+			num_layer = 5;
+			x = 0;
+			while(x<num_layer){
+				x++;
+				forward_prop(g, features, labels,layers);
+			}
+		}
+}
