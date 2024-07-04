@@ -1,7 +1,8 @@
 // FOR BC: nvcc bc_dsl_v2.cu -arch=sm_60 -std=c++14 -rdc=true # HW must support CC 6.0+ Pascal or after
-#include "test2.h"
+#include "test.h"
 
-void test1(graph& g,float* features,int* labels)
+void forward_prop(graph& g,float* features,int* labels,int layer
+)
 
 {
   // CSR BEGIN
@@ -43,7 +44,112 @@ void test1(graph& g,float* features,int* labels)
   // CSR END
   //LAUNCH CONFIG
   const unsigned threadsPerBlock = 512;
-  unsigned numThreads   = (V < threadsPerBlock)? 512: V;
+  unsigned numThreads   = (V > threadsPerBlock)? 512: V;
+  unsigned numBlocks    = (V+threadsPerBlock-1)/threadsPerBlock;
+
+
+  // TIMER START
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  float milliseconds = 0;
+  cudaEventRecord(start,0);
+
+
+  //DECLAR DEVICE AND HOST vars in params
+  float* d_features;
+  cudaMalloc(&d_features, sizeof(float)*(V));
+
+  int* d_labels;
+  cudaMalloc(&d_labels, sizeof(int)*(V));
+
+
+  //BEGIN DSL PARSING 
+  int bajkd = ; // asst in .cu
+
+  forward_prop_kernel<<<numBlocks, threadsPerBlock>>>(V,E,d_meta,d_data,d_labels);
+  cudaDeviceSynchronize();
+
+
+
+
+  //TIMER STOP
+  cudaEventRecord(stop,0);
+  cudaEventSynchronize(stop);
+  cudaEventElapsedTime(&milliseconds, start, stop);
+  printf("GPU Time: %.6f ms\n", milliseconds);
+
+  cudaMemcpy(features, d_features, sizeof(float)*(V), cudaMemcpyDeviceToHost);
+  cudaMemcpy(  labels, d_labels, sizeof(int)*(V), cudaMemcpyDeviceToHost);
+} //end FUN
+void Backward_prop(int* xyzzz)
+
+{
+  // CSR BEGIN
+  int V = xyzzz.num_nodes();
+  int E = xyzzz.num_edges();
+
+  printf("#nodes:%d\n",V);
+  printf("#edges:%d\n",E);
+  int* edgeLen = xyzzz.getEdgeLen();
+
+
+
+
+
+
+
+  // CSR END
+  //LAUNCH CONFIG
+  const unsigned threadsPerBlock = 512;
+  unsigned numThreads   = (V > threadsPerBlock)? 512: V;
+  unsigned numBlocks    = (V+threadsPerBlock-1)/threadsPerBlock;
+
+
+  // TIMER START
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  float milliseconds = 0;
+  cudaEventRecord(start,0);
+
+
+  //DECLAR DEVICE AND HOST vars in params
+  int* d_xyzzz;
+  cudaMalloc(&d_xyzzz, sizeof(int)*(V));
+
+
+  //BEGIN DSL PARSING 
+
+  //TIMER STOP
+  cudaEventRecord(stop,0);
+  cudaEventSynchronize(stop);
+  cudaEventElapsedTime(&milliseconds, start, stop);
+  printf("GPU Time: %.6f ms\n", milliseconds);
+
+  cudaMemcpy(   xyzzz,  d_xyzzz, sizeof(int)*(V), cudaMemcpyDeviceToHost);
+} //end FUN
+void run(graph& g,float* features,int* labels)
+
+{
+  // CSR BEGIN
+  int V = g.num_nodes();
+  int E = g.num_edges();
+
+  printf("#nodes:%d\n",V);
+  printf("#edges:%d\n",E);
+  int* edgeLen = g.getEdgeLen();
+
+
+
+
+
+
+
+  // CSR END
+  //LAUNCH CONFIG
+  const unsigned threadsPerBlock = 512;
+  unsigned numThreads   = (V > threadsPerBlock)? 512: V;
   unsigned numBlocks    = (V+threadsPerBlock-1)/threadsPerBlock;
 
 
@@ -67,8 +173,6 @@ void test1(graph& g,float* features,int* labels)
   int num_epoch = 100; // asst in .cu
 
   int num_layer = 5; // asst in .cu
-
-  int bajkd = ; // asst in .cu
 
   int x = 1; // asst in .cu
 
