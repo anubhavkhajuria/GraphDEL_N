@@ -20,11 +20,6 @@ function forward_prop(Graph g, propNode<float> features, propNode<int> labels){
 				}
 			}
 		}
-		
-		while(num_layer--){
-	//		Backward_prop(
-		}
-	
 			
 	}
 
